@@ -1,7 +1,14 @@
 #!/bin/bash
 
+set -e
+
 TRADE_NAME=$1
 VERSION=$2
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <TRADE_NAME> <VERSION>"
+    exit 1
+fi
 
 #cd /home/enigma/TradingBinaries/
 cd /home/ajain/TradingBinaries/
@@ -94,11 +101,11 @@ TRADER_BINARY_NAME="${TRADER_BINARY_NAMES[$TRADE_NAME]}"
 if [ "$TRADE_NAME" == "us_frontend" ]; then
     echo "Copying us_frontend"
     TRADING_BINARY_PREFIX="/home/infinity/bin"
-    rsync -avz --info=progress2 "$HOST_IP:${BINARY_PATHS[$TRADE_NAME]}" "$TRADING_BINARY_PREFIX/CME_live_us_frontend"
+    rsync -avW --info=progress2 "$HOST_IP:${BINARY_PATHS[$TRADE_NAME]}" "$TRADING_BINARY_PREFIX/CME_live_us_frontend"
     TRADING_BINARY_PATH="$TRADING_BINARY_PREFIX/CME_live_us_frontend"
 else
     echo "Copying $TRADE_NAME"
-    rsync -avz --info=progress2 "$HOST_IP:${BINARY_PATHS[$TRADE_NAME]}" "$DESTINATION_PATH"
+    rsync -avW --info=progress2 "$HOST_IP:${BINARY_PATHS[$TRADE_NAME]}" "$DESTINATION_PATH"
     TRADING_BINARY_PATH="$DESTINATION_PATH"
 fi
 
